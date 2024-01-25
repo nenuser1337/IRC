@@ -3,8 +3,6 @@
 
 
 
-
-
 bool ServerPoll::isInsult(const std::string& message) {
     return message.find("retard") != std::string::npos;
 }
@@ -21,11 +19,11 @@ bool ServerPoll::isSpamming(int sender_fd, const std::string& message) {
 }
 
 void ServerPoll::kickClient(int sender_fd) {
-    // Inform the client they are being kicked
+    
     const char* kick_msg = "You have been kicked for misconduct.\n";
     send(sender_fd, kick_msg, strlen(kick_msg), 0);
     
-    // Close the client socket and remove from the poll fds
+    
     close(sender_fd);
     // You'll need to find the index for sender_fd to remove it correctly
     for (size_t i = 0; i < pollFds.size(); ++i) {
