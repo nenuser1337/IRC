@@ -14,6 +14,8 @@
 #include <fstream>
 #include <sstream>
 
+#define BUFSIZZ 1000000
+
 class ServerPoll {
 public:
     ServerPoll();

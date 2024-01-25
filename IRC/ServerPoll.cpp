@@ -85,7 +85,7 @@ int ServerPoll::createServerSocket() {
 
 void ServerPoll::acceptNewConnection() {
     int client_fd;
-    char msg_to_send[1024]; // Assuming BUFSIZ is 1024 for this context
+    char msg_to_send[BUFSIZZ]; // Assuming BUFSIZ is 1024 for this context
 
     // Accept a new connection
     client_fd = accept(serverSocket, NULL, NULL);
@@ -117,7 +117,7 @@ void ServerPoll::acceptNewConnection() {
 
 void ServerPoll::readDataFromSocket(int index) {
     int sender_fd = pollFds[index].fd;
-    char buffer[1024];
+    char buffer[BUFSIZZ];
 
     int bytes_read = recv(sender_fd, buffer, sizeof(buffer) - 1, 0);
     if (bytes_read <= 0) {
@@ -154,12 +154,13 @@ void ServerPoll::readDataFromSocket(int index) {
                 messageCounts[sender_fd] = 0;
             } else {
                 // Normal message processing
-                char msg_to_send[1024];
+                char msg_to_send[BUFSIZZ];
                 int msg_length = snprintf(msg_to_send, sizeof(msg_to_send), "[%d] says: %s", sender_fd, buffer);
                 if (msg_length < 0 || msg_length >= static_cast<int>(sizeof(msg_to_send))) {
                     std::cerr << "[Server] Error formatting outgoing message." << std::endl;
                     return;
                 }
+                std::cout << "Received message from [" << sender_fd << "]: " << message << std::endl;
 
                 // Broadcasting message to other clients
                 for (size_t i = 0; i < pollFds.size(); ++i) {
@@ -191,4 +192,3 @@ void ServerPoll::delFromPollFds(int index) {
     }
 }
 
-// The main.cpp file would create an instance of ServerPoll and call its run method.

@@ -6,12 +6,10 @@
 
 
 bool ServerPoll::isInsult(const std::string& message) {
-    // Check if the message contains the specific insult
     return message.find("retard") != std::string::npos;
 }
 
 bool ServerPoll::isSpamming(int sender_fd, const std::string& message) {
-    // Check if the client is sending the same message repeatedly
     if (lastMessages[sender_fd] == message) {
         messageCounts[sender_fd]++;
     } else {

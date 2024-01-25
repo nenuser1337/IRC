@@ -4,7 +4,7 @@
 
 
 void ServerPoll::handleFileTransfer(int client_fd, const std::string& file_name, long file_size) {
-    char buffer[BUFSIZ];
+    char buffer[BUFSIZZ];
     std::ofstream file(file_name, std::ios::binary);
 
     if (!file.is_open()) {
@@ -14,7 +14,7 @@ void ServerPoll::handleFileTransfer(int client_fd, const std::string& file_name,
 
     long bytes_received = 0;
     while (bytes_received < file_size) {
-        int bytes_read = recv(client_fd, buffer, BUFSIZ, 0);
+        int bytes_read = recv(client_fd, buffer, BUFSIZZ, 0);
         if (bytes_read <= 0) {
             // Handle closing or error
             break;
